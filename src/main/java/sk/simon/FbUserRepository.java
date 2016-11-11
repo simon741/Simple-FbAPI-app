@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface FbUserRepository extends JpaRepository<FbUser,Long> {
 
-    List<FbUser> findByFbId(String FbId);
+    List<FbUser> findByFbId(Class<FbUser> fbUserClass, String FbId);
 }
