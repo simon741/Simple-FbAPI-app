@@ -13,6 +13,7 @@ public interface FbUserService {
 
     void retrieveAndSaveFbUser(String accessToken, String userFbId) throws FbUserNotSaved, FbUserNotRetrieved;
 
-    void deleteFbUser(String userFbId) throws FbUserNotFound, FbUserNotDeleted;
+    void deleteFbUser(String userFbId) throws FbUserNotDeleted;
 
+    FbUser getUserByFbId(String userFbId) throws FbUserNotFound;
 }

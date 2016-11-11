@@ -25,7 +25,6 @@ public class FbUserServiceImpl implements FbUserService {
     @Autowired
     private FbUserRepository fbUserRepository;
 
-    //chytat aj exception od facebooku
     @Override
     public void retrieveAndSaveFbUser(String accessToken, String userId) throws FbUserNotSaved, FbUserNotRetrieved {
         String [] fields = { "id", "gender", "first_name", "last_name" };
@@ -60,4 +59,13 @@ public class FbUserServiceImpl implements FbUserService {
             throw new FbUserNotDeleted("exception on persistance layer");
         }
     }
+
+    @Override
+    public FbUser getUserByFbId(String userFbId) throws FbUserNotFound {
+        List<FbUser> fbUsers = fbUserRepository.findByFbId(FbUser.class, userFbId);
+        if (fbUsers.size() == 0) throw new FbUserNotFound("There is no user with FbId:" + userFbId);
+        FbUser fbUser = fbUsers.get(0);
+        return fbUser;
+    }
+
 }

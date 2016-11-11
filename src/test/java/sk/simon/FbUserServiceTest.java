@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import sk.simon.exceptions.FbUserNotDeleted;
+import sk.simon.exceptions.FbUserNotFound;
 import sk.simon.exceptions.FbUserNotRetrieved;
 import sk.simon.exceptions.FbUserNotSaved;
 
@@ -39,14 +40,10 @@ public class FbUserServiceTest {
     }
 
     @Test
-    public void retrieveAndSaveFbUserTest(){
-        try {
+    public void retrieveAndSaveFbUserTest() throws FbUserNotRetrieved, FbUserNotSaved {
+
             fbUserServiceImpl.retrieveAndSaveFbUser(accessToken, userFbId);
-        } catch (FbUserNotSaved fbUserNotSaved) {
-            fbUserNotSaved.printStackTrace();
-        } catch (FbUserNotRetrieved fbUserNotRetrieved) {
-            fbUserNotRetrieved.printStackTrace();
-        }
+
 
         List<FbUser> fbUsers = fbUserRepository.findByFbId(FbUser.class, userFbId);
         assertNotEquals(fbUsers.size(),0);
@@ -66,7 +63,7 @@ public class FbUserServiceTest {
     }
 
     @Test
-    public void deleteFbUserTest(){
+    public void deleteFbUserTest() throws FbUserNotDeleted {
         FbUser fbUser = new FbUser();
         fbUser.setLastName("Sudora");
         fbUser.setFirstName("Simon");
@@ -76,11 +73,8 @@ public class FbUserServiceTest {
 
         List<FbUser> fbUsers = fbUserRepository.findByFbId(FbUser.class, userFbId);
         assertNotEquals(fbUsers.size(),0);
-        try {
-            fbUserServiceImpl.deleteFbUser(userFbId);
-        } catch (FbUserNotDeleted fbUserNotDeleted) {
-            fbUserNotDeleted.printStackTrace();
-        }
+        fbUserServiceImpl.deleteFbUser(userFbId);
+
         fbUsers = fbUserRepository.findByFbId(FbUser.class, userFbId);
         assertEquals(fbUsers.size(),0);
     }
@@ -97,5 +91,18 @@ public class FbUserServiceTest {
         fbUserRepository.save(fbUser);
         fbUserServiceImpl.deleteFbUser(wrongUserFbId);
 
+    }
+
+    @Test
+    public void getUserByFbIdTest() throws FbUserNotFound {
+        FbUser fbUser = new FbUser();
+        fbUser.setLastName("Sudora");
+        fbUser.setFirstName("Simon");
+        fbUser.setGender("male");
+        fbUser.setFbId(userFbId);
+        fbUserRepository.save(fbUser);
+
+        FbUser foundFbUser = fbUserServiceImpl.getUserByFbId(userFbId);
+        assertEquals(foundFbUser,fbUser);
     }
 }
