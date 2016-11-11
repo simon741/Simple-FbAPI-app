@@ -1,7 +1,7 @@
 package sk.simon;
 
-import org.springframework.data.annotation.Id;
-
+import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,10 +14,10 @@ import javax.persistence.GenerationType;
 public class FbUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
-    private String FbId;
+    private String fbId;
     private String gender;
     private String firstName;
     private String lastName;
@@ -31,11 +31,11 @@ public class FbUser {
     }
 
     public String getFbId() {
-        return FbId;
+        return fbId;
     }
 
     public void setFbId(String fbId) {
-        FbId = fbId;
+        this.fbId = fbId;
     }
 
     public String getGender() {

@@ -18,7 +18,7 @@ public class FbUserServiceImpl implements FbUserService {
     @Autowired
     private FbUserRepository fbUserRepository;
 
-    public void loadAndSaveFbUserPersonalDetails(String accessToken, String userId) {
+    public void retrieveAndSaveFbUser(String accessToken, String userId) {
         String [] fields = { "id", "gender", "first_name", "last_name" };
         // I did not use facebook.userOperations().getUserProfile() because this method is not compatible with Fb API 2.8
         Facebook facebook = new FacebookTemplate(accessToken);

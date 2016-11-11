@@ -6,5 +6,5 @@ package sk.simon;
 
 public interface FbUserService {
 
-    void loadAndSaveFbUserPersonalDetails(String accessToken, String userId);
+    void retrieveAndSaveFbUser(String accessToken, String userId);
 }
