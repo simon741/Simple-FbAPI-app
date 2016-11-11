@@ -1,10 +1,7 @@
 package sk.simon;
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Simon on 10.11.2016.
@@ -21,6 +18,9 @@ public class FbUser {
     private String gender;
     private String firstName;
     private String lastName;
+
+    @OneToMany(mappedBy="fbUser", cascade = CascadeType.ALL)
+    private List<LikedPage> likedPages;
 
     public Long getId() {
         return id;
@@ -69,13 +69,12 @@ public class FbUser {
 
         FbUser fbUser = (FbUser) o;
 
-        return getId().equals(fbUser.getId());
+        return getFbId() != null ? getFbId().equals(fbUser.getFbId()) : fbUser.getFbId() == null;
 
     }
 
     @Override
     public int hashCode() {
-        return getId().hashCode();
+        return getFbId() != null ? getFbId().hashCode() : 0;
     }
-
 }

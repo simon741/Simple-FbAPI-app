@@ -23,8 +23,8 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FbUserServiceTest {
-    //Timeout of token is one day
-    private String accessToken = "EAAQx8CaKKZCoBAJdHeHNruwv8vg7rGmRKwflrNbwEYc3eAxPUPzk2UB0RcVcg7fnJr6NS8ZB4L5SKNBpxtgN8F0zgNEZAc6RxFvPyMQvcO3U9obQ72Cq715f3gPPBd1dpccX3YbpfZCjmtSJLBj0fLqvdJvgC7KnnnUXh0jh2gZDZD";
+    //Token expires after few hours
+    private String accessToken = "EAAQx8CaKKZCoBAHAwIMP5L9wj9s5khJDZCYLS3qB71rOEXZCt9joPlor9viFFS3N2YwiCOZATLE7x2jZCBjroZBIapskUKnevkkhHPKZAyCWvSWWW7r0u3oqZBxr1ddY5ZCvyhBzJ219oN31l9IDNsBVjhf7ki6nVodhzvV1ZBi7lnEgZDZD";
     String userFbId = "10206248904662029";
 
     @Autowired

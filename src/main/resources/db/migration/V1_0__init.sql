@@ -6,3 +6,11 @@ CREATE TABLE FB_USER (
   fb_id varchar(255)
 );
 
+CREATE TABLE LIKED_PAGE (
+  id BIGINT auto_increment primary key,
+  name varchar(255),
+  description varchar(255),
+  fb_id varchar(255),
+  fb_user_id BIGINT
+);
+
