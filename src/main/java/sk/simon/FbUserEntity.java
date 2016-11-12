@@ -8,7 +8,8 @@ import java.util.List;
  */
 
 @Entity
-public class FbUser {
+@Table(name = "FB_USER")
+public class FbUserEntity {
 
     @Id
     @GeneratedValue
@@ -20,7 +21,7 @@ public class FbUser {
     private String lastName;
 
     @OneToMany(mappedBy="fbUser", cascade = CascadeType.ALL)
-    private List<LikedPage> likedPages;
+    private List<LikedPageEntity> likedPages;
 
     public Long getId() {
         return id;
@@ -65,9 +66,9 @@ public class FbUser {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof FbUser)) return false;
+        if (!(o instanceof FbUserEntity)) return false;
 
-        FbUser fbUser = (FbUser) o;
+        FbUserEntity fbUser = (FbUserEntity) o;
 
         return getFbId() != null ? getFbId().equals(fbUser.getFbId()) : fbUser.getFbId() == null;
 

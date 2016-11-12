@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 
-public interface FbUserRepository extends JpaRepository<FbUser,Long> {
+public interface FbUserRepository extends JpaRepository<FbUserEntity,Long> {
 
-    List<FbUser> findByFbId(Class<FbUser> fbUserClass, String FbId);
+    List<FbUserEntity> findByFbId(Class<FbUserEntity> fbUserClass, String FbId);
 }

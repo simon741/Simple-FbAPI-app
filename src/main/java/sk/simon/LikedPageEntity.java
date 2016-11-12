@@ -1,9 +1,6 @@
 package sk.simon;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 
 /**
@@ -11,7 +8,8 @@ import javax.persistence.ManyToOne;
  */
 
 @Entity
-public class LikedPage {
+@Table(name = "LIKED_PAGE")
+public class LikedPageEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -21,7 +19,7 @@ public class LikedPage {
     private String description;
 
     @ManyToOne
-    private FbUser fbUser;
+    private FbUserEntity fbUser;
 
     public Long getId() {
         return id;
@@ -58,9 +56,9 @@ public class LikedPage {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LikedPage)) return false;
+        if (!(o instanceof LikedPageEntity)) return false;
 
-        LikedPage that = (LikedPage) o;
+        LikedPageEntity that = (LikedPageEntity) o;
 
         return getFbId() != null ? getFbId().equals(that.getFbId()) : that.getFbId() == null;
 

@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import sk.simon.exceptions.FbUserNotDeleted;
-import sk.simon.exceptions.FbUserNotFound;
 import sk.simon.exceptions.FbUserNotRetrieved;
-import sk.simon.exceptions.FbUserNotSaved;
 
 import java.util.List;
 
@@ -25,11 +23,11 @@ import static org.junit.Assert.assertNotNull;
 @SpringBootTest
 public class FbUserServiceTest {
     //Token expires after few hours
-    private String accessToken = "EAAQx8CaKKZCoBAHAwIMP5L9wj9s5khJDZCYLS3qB71rOEXZCt9joPlor9viFFS3N2YwiCOZATLE7x2jZCBjroZBIapskUKnevkkhHPKZAyCWvSWWW7r0u3oqZBxr1ddY5ZCvyhBzJ219oN31l9IDNsBVjhf7ki6nVodhzvV1ZBi7lnEgZDZD";
-    String userFbId = "10206248904662029";
+    private String accessToken = "EAAQx8CaKKZCoBAIY0UkTThZABVu3unZA78w8zACOyf5ZCxty5xZCyEqMURoSJKpZA4VH1QyhlMxhsUbGY3sjtimenibyMl29MBZC3TDyWZCLo9hkJslG0sVJT2aPCQnTTdmr2uAuQBflOgAB5CZAMW2EUXZBw6GvZAO6qHou7pwi4wrAAZDZD";
+    private String userFbId = "10206248904662029";
 
     @Autowired
-    private FbUserServiceImpl fbUserServiceImpl;
+    private FbUserService fbUserService;
 
     @Autowired
     private FbUserRepository fbUserRepository;
@@ -40,69 +38,67 @@ public class FbUserServiceTest {
     }
 
     @Test
-    public void retrieveAndSaveFbUserTest() throws FbUserNotRetrieved, FbUserNotSaved {
+    public void retrieveAndSaveFbUserTest() throws Exception {
+        fbUserService.retrieveAndSaveFbUser(accessToken, userFbId);
 
-            fbUserServiceImpl.retrieveAndSaveFbUser(accessToken, userFbId);
-
-
-        List<FbUser> fbUsers = fbUserRepository.findByFbId(FbUser.class, userFbId);
+        List<FbUserEntity> fbUsers = fbUserRepository.findByFbId(FbUserEntity.class, userFbId);
         assertNotEquals(fbUsers.size(),0);
     }
 
     @Test(expected = FbUserNotRetrieved.class)
-    public void retrieveAndSaveFbUserWrongFbIdTest() throws FbUserNotRetrieved, FbUserNotSaved {
+    public void retrieveAndSaveFbUserWrongFbIdTest() throws Exception {
         String wrongUserId = "";
-        fbUserServiceImpl.retrieveAndSaveFbUser(accessToken, wrongUserId);
+        fbUserService.retrieveAndSaveFbUser(accessToken, wrongUserId);
     }
 
     @Test(expected = FbUserNotRetrieved.class)
-    public void retrieveAndSaveFbUserWrongAccessTokenTest() throws FbUserNotRetrieved, FbUserNotSaved {
+    public void retrieveAndSaveFbUserWrongAccessTokenTest() throws Exception {
         //Timeout of token is one day
         String wrongAccessToken = "iiii";
-        fbUserServiceImpl.retrieveAndSaveFbUser(wrongAccessToken, userFbId);
+        fbUserService.retrieveAndSaveFbUser(wrongAccessToken, userFbId);
     }
 
     @Test
-    public void deleteFbUserTest() throws FbUserNotDeleted {
-        FbUser fbUser = new FbUser();
+    public void deleteFbUserTest() throws Exception {
+        FbUserEntity fbUser = new FbUserEntity();
         fbUser.setLastName("Sudora");
         fbUser.setFirstName("Simon");
         fbUser.setGender("male");
         fbUser.setFbId(userFbId);
         fbUserRepository.save(fbUser);
 
-        List<FbUser> fbUsers = fbUserRepository.findByFbId(FbUser.class, userFbId);
+        List<FbUserEntity> fbUsers = fbUserRepository.findByFbId(FbUserEntity.class, userFbId);
         assertNotEquals(fbUsers.size(),0);
-        fbUserServiceImpl.deleteFbUser(userFbId);
+        fbUserService.deleteFbUser(userFbId);
 
-        fbUsers = fbUserRepository.findByFbId(FbUser.class, userFbId);
+        fbUsers = fbUserRepository.findByFbId(FbUserEntity.class, userFbId);
         assertEquals(fbUsers.size(),0);
     }
 
     @Test(expected = FbUserNotDeleted.class)
-    public void deleteFbUserWrongFdIdTest() throws FbUserNotDeleted {
+    public void deleteFbUserWrongFdIdTest() throws Exception {
         String userFbId = "10206248904662029";
         String wrongUserFbId = "10206249";
-        FbUser fbUser = new FbUser();
+        FbUserEntity fbUser = new FbUserEntity();
         fbUser.setLastName("Sudora");
         fbUser.setFirstName("Simon");
         fbUser.setGender("male");
         fbUser.setFbId(userFbId);
         fbUserRepository.save(fbUser);
-        fbUserServiceImpl.deleteFbUser(wrongUserFbId);
+        fbUserService.deleteFbUser(wrongUserFbId);
 
     }
 
     @Test
-    public void getUserByFbIdTest() throws FbUserNotFound {
-        FbUser fbUser = new FbUser();
+    public void getUserByFbIdTest() throws Exception {
+        FbUserEntity fbUser = new FbUserEntity();
         fbUser.setLastName("Sudora");
         fbUser.setFirstName("Simon");
         fbUser.setGender("male");
         fbUser.setFbId(userFbId);
         fbUserRepository.save(fbUser);
 
-        FbUser foundFbUser = fbUserServiceImpl.getUserByFbId(userFbId);
+        FbUserEntity foundFbUser = fbUserService.getUserByFbId(userFbId);
         assertEquals(foundFbUser,fbUser);
     }
 }
