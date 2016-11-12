@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.simon.exceptions.FbUserNotDeleted;
+import sk.simon.exceptions.FbUserNotFound;
 import sk.simon.exceptions.FbUserNotRetrieved;
 import sk.simon.exceptions.FbUserNotSaved;
 
@@ -51,9 +52,13 @@ public class FbUserRestController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void getFbUserDetails(){
-
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public FbUserEntity getFbUserDetails(@PathVariable String userId){
+        try {
+            return fbUserService.getUserByFbId(userId);
+        } catch (FbUserNotFound fbUserNotFound) {
+            return new FbUserEntity();
+        }
     }
 
 }
