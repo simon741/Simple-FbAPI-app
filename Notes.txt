@@ -1,0 +1,6 @@
+NOTES:
+-I had difficulties with setting up my Facebook application. I was not able to assign all needed permissions to my application.
+ My Facebook application has no permission to work with user's liked pages.
+-Because of these difficulties I did not implement endpoint GET /users/{userFbId}/likes.
+-Application also does not work with profile picture URL's. 
+-All other functionality and endpoints are implemented as it is defined in assignment.
